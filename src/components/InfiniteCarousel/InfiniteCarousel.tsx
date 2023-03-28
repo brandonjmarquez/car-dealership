@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Car } from "../../tools/car";
 import { CARS } from "../../tools/mock-cars";
-import CarouselItem from "../CarouselItem/CarouselItem";
+import CarouselItem from "./CarouselItem/CarouselItem";
 import './InfiniteCarousel.css'
 
 interface InfiniteCarouselProps {
@@ -9,127 +9,88 @@ interface InfiniteCarouselProps {
 }
 
 const InfiniteCarousel = (props: InfiniteCarouselProps) => {
-  const [isVisible, setIsVisible] = useState<Map<number, boolean>>(new Map);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const observer = useRef<IntersectionObserver | null>(null);
+  const intervalRef = useRef<number>();
   const carouselItems = useMemo(() => {
     let items: JSX.Element[] = [];
 
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={item.id + Math.random()} item={item} />)
+      items.push(<CarouselItem key={'before' + item.id} item={item} />)
+    })
+    props.items.forEach((item) => {
+      items.push(<CarouselItem key={'center' + item.id + Math.random()} item={item} />)
+    })
+    props.items.forEach((item) => {
+      items.push(<CarouselItem key={'after' + item.id + Math.random()} item={item} />)
     })
 
     return items;
   }, [props.items]);
-  const beforeItems = useMemo(() => {
-    let items: JSX.Element[] = []
-    console.log(isVisible.size)
-    if(isVisible.size > 0) {
-      // console.log(Object.entries(isVisible))
-      for (let [key, value] of isVisible) {
-        if(value) break;
-
-        items.push(<CarouselItem key={key - 1 + Math.random()} item={props.items[key - 1]} />)
-      }
-      // Object.entries(isVisible).some((entry: any, i) => {
-      //   console.log(entry)
-      //   if(entry[1]) return entry[1];
-
-      //   items.push(<CarouselItem key={entry[0] - 1 + Math.random()} item={props.items[entry[0] - 1]} />)
-      // })
-    }
-    console.log(items)
-    return items;
-  }, [isVisible])
-  const afterItems = useMemo(() => {
-    let items: JSX.Element[] = []
-    console.log(isVisible.size)
-    if(isVisible.size > 0) {
-      // console.log(Object.entries(isVisible))
-      for (let [key, value] of isVisible) {
-        if(value) break;
-
-        items.push(<CarouselItem key={key - 1 + Math.random()} item={props.items[key - 1]} />)
-      }
-      // Object.entries(isVisible).some((entry: any, i) => {
-      //   console.log(entry)
-      //   if(entry[1]) return entry[1];
-
-      //   items.push(<CarouselItem key={entry[0] - 1 + Math.random()} item={props.items[entry[0] - 1]} />)
-      // })
-    }
-    console.log(items)
-    return items;
-  }, [isVisible])
-
-
-  useEffect(() => {
-    const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      setIsVisible((isVisible) => {
-        let state = new Map(isVisible);
-
-        entries.forEach((entry, i) => {
-          state.set(parseInt(entry.target.classList[0]), entry.isIntersecting)
-        })
-        return state;
-      })
-      console.log(entries)
-    }
-
-    const options = {root: null, rootMargin: `${carouselRef.current!.offsetWidth / 3}px`, threshold: 0}
-
-    observer.current = new IntersectionObserver(callback, options)
-  }, []);
 
   useEffect(() => {
     const carouselContent = carouselRef.current;
 
-    if(carouselContent && observer.current) {
-      const children = carouselContent!.children;
+    if(carouselContent) 
+      carouselContent.scroll({left: carouselContent.scrollWidth / 3 - carouselContent.children[0].children[0].clientWidth / 4, top: 0})
 
-      for(let i = 0; i < children.length; i++) {
-        observer.current.observe(children[i]);
-      }
-
-
-    }
-
-    return (() => {
-      if(observer.current) observer.current.disconnect();
-    })
+    if(!intervalRef.current && carouselContent)
+      intervalRef.current = window.setInterval(() => {
+        carouselContent.scrollBy(.5, 0);
+      }, 5);
+    
   }, []);
-
-  useEffect(() => {
-    // if(carouselRef.current)
-    //   carouselRef.current.scroll(carouselRef.current.offsetWidth , 0)
-  }, []);
-
-  useEffect(() => {
-    const carouselContent = carouselRef.current;
-    console.log(carouselContent?.children[0])
-    // if(carouselContent)
-    //   carouselContent.innerHTML += carouselContent.innerHTML;
-  }, [])
 
   const handleMouseEnter = () => {
     const carouselContent = carouselRef.current;
-    if(carouselContent)
-      carouselContent.style.animationPlayState = 'paused';
+    if(carouselContent) {
+      // (carouselContent.children[0] as HTMLDivElement).style.animationPlayState = 'paused';
+      window.clearInterval(intervalRef.current);
+    }
   }
 
   const handleMouseLeave = () => {
     const carouselContent = carouselRef.current;
-    if(carouselContent)
-      carouselContent.style.animationPlayState = 'running';
+    if(carouselContent) {
+      // (carouselContent.children[0] as HTMLDivElement).style.animationPlayState = 'running';
+      intervalRef.current = window.setInterval(() => {
+        carouselContent.scrollBy(.5, 0);
+      }, 5);
+    }
+  }
+
+  const handleScroll = (e: any) => {
+    const scrollLeft = (e.target as HTMLDivElement).scrollLeft;
+    const carouselContent = carouselRef.current;
+
+    if(carouselContent && scrollLeft - carouselContent!.children[0].children[0].clientWidth * 9 * 2 > 20) {
+      carouselContent.scrollBy({top: 0, left: carouselContent.children[0].children[0].clientWidth * -9})
+    } 
+    else if(carouselContent && scrollLeft < 10) {
+      carouselContent.scrollBy({top: 0, left: carouselContent.children[0].children[0].clientWidth * 9})
+    }
   }
 
   return (
-    <div className="carousel w-full overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {/* <app-carousel-item *ngFor="let car of cars" [car]="car"></app-carousel-item> */}
-      <div ref={carouselRef} className='carousel-content'>
-        {carouselItems}
-        {afterItems}
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
+      <button className="inline-block" onClick={() => {
+        const carouselContent = carouselRef.current;
+        if(carouselContent) 
+          carouselContent.scrollBy({top: 0, left: -carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
+        }}>{'<'}</button>
+
+      <div ref={carouselRef} className="carousel w-full overflow-x-scroll overflow-y-hidden whitespace-nowrap scrollbar-hide" onScroll={(e) => handleScroll(e)}>
+        <div className='carousel-content'>
+          {carouselItems}
+        </div>
       </div>
+
+      <button className='inline-block' onClick={() => {
+          const carouselContent = carouselRef.current;
+          if(carouselContent) {
+            carouselContent.scrollBy({top: 0, left: carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
+          }
+          }}>{'>'}
+        </button>
     </div>
   )
 }

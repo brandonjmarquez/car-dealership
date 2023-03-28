@@ -1,5 +1,5 @@
 import React from "react";
-import { Car } from "../../tools/car";
+import { Car } from "../../../tools/car";
 
 interface CarouselItemProps {
   item: Car;
