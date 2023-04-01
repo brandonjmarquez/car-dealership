@@ -3,7 +3,7 @@ import { Car } from "../../tools/car";
 import { CARS } from "../../tools/mock-cars";
 import CarouselItem from "../CarouselItem/CarouselItem";
 import './InfiniteCarousel.css'
-import { FaArrowCircleLeft, FaArrowCircleRight, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface InfiniteCarouselProps {
   items: Car[]
@@ -16,7 +16,6 @@ const InfiniteCarousel = (props: InfiniteCarouselProps) => {
   const handleMouseLeave = () => {
     const carouselContent = carouselRef.current;
     if(carouselContent) {
-      // (carouselContent.children[0] as HTMLDivElement).style.animationPlayState = 'running';
       intervalRef.current = window.setInterval(() => {
         carouselContent.scrollBy(.5, 0);
       }, 5);
@@ -86,7 +85,7 @@ const InfiniteCarousel = (props: InfiniteCarouselProps) => {
             carouselContent.scrollBy({top: 0, left: -carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
           }}><FaArrowLeft />
         </button>
-        <button className="inline-block bg-custom-400 p-3 rounded-full" onClick={() => {
+        <button className="inline-block bg-custom-400 p-3 m-3 rounded-full" onClick={() => {
           const carouselContent = carouselRef.current;
           if(carouselContent) {
             carouselContent.scrollBy({top: 0, left: carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})

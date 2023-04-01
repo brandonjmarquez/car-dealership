@@ -27,7 +27,7 @@ const CarouselItem = (props: CarouselItemProps) => {
   }
 
   return ( 
-    <div id={`${props.item.id + props.className}`} 
+    <div id={`${props.className + props.item.id}`} 
       className={`${props.className} w-[255px] inline-block`}
     >
       {infoModal}

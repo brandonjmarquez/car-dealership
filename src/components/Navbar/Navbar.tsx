@@ -22,9 +22,9 @@ const Navbar = () => {
         `}
       </style>
       <div id='topbar' className='px-9 py-2 bg-custom-200 text-right'>topbar works!</div>
-      <nav id='navbar' className='sticky top-0'>
+      <nav id='navbar' className='sticky top-0 overflow-hidden'>
         <div className='py-2 bg-custom-100 w-full text-white whitespace-nowrap z-50 shadow-md'>
-          <div className='grid grid-cols-2 whi'>
+          <div className='grid grid-cols-2'>
             <div className='flex items-center mx-7 my-1 '>
               {/* <FaCar className='text-6xl inline-block py-3' /> */}
               <h1 className='inline-block text-xl lg:text-3xl xl:text-6xl font-bold'>Mock Motors</h1>
