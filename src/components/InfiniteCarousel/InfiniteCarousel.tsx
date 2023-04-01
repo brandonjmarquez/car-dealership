@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Car } from "../../tools/car";
 import { CARS } from "../../tools/mock-cars";
-import CarouselItem from "./CarouselItem/CarouselItem";
+import CarouselItem from "../CarouselItem/CarouselItem";
 import './InfiniteCarousel.css'
+import { FaArrowCircleLeft, FaArrowCircleRight, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface InfiniteCarouselProps {
   items: Car[]
@@ -11,17 +12,28 @@ interface InfiniteCarouselProps {
 const InfiniteCarousel = (props: InfiniteCarouselProps) => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number>();
+
+  const handleMouseLeave = () => {
+    const carouselContent = carouselRef.current;
+    if(carouselContent) {
+      // (carouselContent.children[0] as HTMLDivElement).style.animationPlayState = 'running';
+      intervalRef.current = window.setInterval(() => {
+        carouselContent.scrollBy(.5, 0);
+      }, 5);
+    }
+  }
+
   const carouselItems = useMemo(() => {
     let items: JSX.Element[] = [];
 
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'before' + item.id} item={item} />)
+      items.push(<CarouselItem key={'before' + item.id} className='carousel' item={item} handleMouseLeave={handleMouseLeave} />)
     })
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'center' + item.id + Math.random()} item={item} />)
+      items.push(<CarouselItem key={'center' + item.id + Math.random()} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />)
     })
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'after' + item.id + Math.random()} item={item} />)
+      items.push(<CarouselItem key={'after' + item.id + Math.random()} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />)
     })
 
     return items;
@@ -48,16 +60,6 @@ const InfiniteCarousel = (props: InfiniteCarouselProps) => {
     }
   }
 
-  const handleMouseLeave = () => {
-    const carouselContent = carouselRef.current;
-    if(carouselContent) {
-      // (carouselContent.children[0] as HTMLDivElement).style.animationPlayState = 'running';
-      intervalRef.current = window.setInterval(() => {
-        carouselContent.scrollBy(.5, 0);
-      }, 5);
-    }
-  }
-
   const handleScroll = (e: any) => {
     const scrollLeft = (e.target as HTMLDivElement).scrollLeft;
     const carouselContent = carouselRef.current;
@@ -71,26 +73,27 @@ const InfiniteCarousel = (props: InfiniteCarouselProps) => {
   }
 
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
-      <button className="inline-block" onClick={() => {
-        const carouselContent = carouselRef.current;
-        if(carouselContent) 
-          carouselContent.scrollBy({top: 0, left: -carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
-        }}>{'<'}</button>
-
+    <div className="flex items-center flex-col" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
       <div ref={carouselRef} className="carousel w-full overflow-x-scroll overflow-y-hidden whitespace-nowrap scrollbar-hide" onScroll={(e) => handleScroll(e)}>
-        <div className='carousel-content'>
+        <div className="carousel-content">
           {carouselItems}
         </div>
       </div>
-
-      <button className='inline-block' onClick={() => {
+      <div className="grid-cols-2">
+        <button className="inline-block bg-custom-400 p-3 m-3  rounded-full" onClick={() => {
+          const carouselContent = carouselRef.current;
+          if(carouselContent) 
+            carouselContent.scrollBy({top: 0, left: -carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
+          }}><FaArrowLeft />
+        </button>
+        <button className="inline-block bg-custom-400 p-3 rounded-full" onClick={() => {
           const carouselContent = carouselRef.current;
           if(carouselContent) {
             carouselContent.scrollBy({top: 0, left: carouselContent.children[0].children[0].clientWidth, behavior: "smooth"})
           }
-          }}>{'>'}
+          }}><FaArrowRight />
         </button>
+      </div>
     </div>
   )
 }

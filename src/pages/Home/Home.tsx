@@ -2,47 +2,56 @@ import React from "react";
 import InfiniteCarousel from '../../components/InfiniteCarousel/InfiniteCarousel'
 import { FaCar, FaPhone, FaSearch } from "react-icons/fa";
 import { CARS } from "../../tools/mock-cars";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
+import FlashingItem from "../../components/FlashingItem/FlashingItem";
 
 const Home = () => {
   return (
-    <div className="">
-      <div className="flex flex-col justify-center text-white bg-[url('https://dcdws.blob.core.windows.net/dws-6613301-13069-media/2020/04/about-section.jpg?id=2271')]">
-        <h1 className="text-6xl font-bold text-center pt-3">
-          Mock Motors
-          <br></br>
-          Car Dealership
-        </h1>
-        <div className="w-full flex justify-evenly text-yellow-400 my-5">
-          <div className="text-center">
-            <a>
-              <FaSearch className="text-7xl block" />
-              <span className="text-lg">Car Finder</span>
-            </a>
-          </div>
-          <div className="text-center">
-            <a>
-              <FaCar className="text-7xl block" />
-              <span className="text-lg">Inventory</span>
-            </a>
-          </div>
-          <div className="text-center">
-            <a>
-              <FaPhone className="text-7xl block" />
-              <span className="text-lg">Contact Us</span>
-            </a>
-          </div>
-        </div>
-        <div className="mx-20">
-          <p className="text-center text-2xl">Custom Motor Group Co. is a local Pflugerville car dealer, specializing in selling used cars. Our address is 405 FM 685, Pflugerville, TX, 78660, down the road from downtown Pflugerville, and right past the HEB.</p>
-          <p className="text-center text-xl">Our selection of used cars is constantly changing, so take a look at our inventory to see what we have for sale.</p>
-          <p className="text-center text-lg">Call us with any questions about our vehicles, or to inquire about a test drive. Our hours are 9am-5:30pm Monday-Friday, and 10am-4pm Saturday. Pick anytime in there and call us and we’ll get you scheduled for an appointment.
+    <>
+      <Navbar />
+      <div className="">
+        
+        <div className="flex flex-col justify-center text-white bg-custom-100 bg-cover bg-blend-multiply bg-[url('https://plus.unsplash.com/premium_photo-1674512540096-46b2ca19ef96?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3133&q=80')]">
+          
+          <h1 className="text-5xl md:text-6xl font-bold text-center pt-3">
+            Mock Motors
             <br></br>
-            Check out our inventory and reviews on:
-          </p>
+            Car Dealership
+          </h1>
+          <div className='flex flex-col-reverse items-center'>
+            <div className="flex flex-col sm:flex-row justify-around text-custom-400 my-5 w-full">
+              <div className="flex justify-center">
+                <a>
+                  <FaSearch className="text-7xl block" />
+                  <span className="text-lg">Car Finder</span>
+                </a>
+              </div>
+              <div className="flex justify-center">
+                <a>
+                  <FaCar className="text-7xl block" />
+                  <span className="text-lg">Inventory</span>
+                </a>
+              </div>
+              <div className="flex justify-center">
+                <a>
+                  <FaPhone className="text-7xl block" />
+                  <span className="text-lg">Contact Us</span>
+                </a>
+              </div>
+            </div>
+            <div className='w-1/2 flex justify-center items-center'>
+              <FlashingItem items={CARS} />
+            </div>
+          </div>
+          <div className="mx-1 lg:mx-20">
+            
+          </div>
         </div>
+        <InfiniteCarousel items={CARS} />
       </div>
-      <InfiniteCarousel items={CARS} />
-    </div>
+      <Footer />
+    </>
   )
 }
 
