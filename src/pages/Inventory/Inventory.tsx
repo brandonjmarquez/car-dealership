@@ -2,7 +2,7 @@ import React, { ReactPortal, useEffect, useMemo, useRef, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { CARS } from "../../tools/mock-cars";
-import SortingModal from '../../components/SortingModal/SortingModal';
+import FilteringModal from '../../components/FilteringModal/FilteringModal';
 import { createPortal } from 'react-dom';
 
 // import logo from './logo.svg';
@@ -11,6 +11,7 @@ import { createPortal } from 'react-dom';
 function Inventory() {
   const [sortingModal, setSortingModal] = useState<ReactPortal | null>();
   const [filter, setFilter] = useState<{property: string, value: string} | null>(null);
+  const filtered = useRef('');
   const inventory = useMemo(() => {
     let items: JSX.Element[] = [];
     CARS.forEach((item) => {
@@ -48,14 +49,20 @@ function Inventory() {
   const sorting = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let elemId = ((e.target as HTMLButtonElement).tagName === "BUTTON") ? (e.target as HTMLButtonElement).parentElement!.id : (e.target as HTMLButtonElement).parentElement!.parentElement!.id;
     let elem = document.getElementById(elemId) as Element;
-    const closeSorting = () => {
-      setSortingModal(createPortal(
-        <SortingModal items={CARS} property={elemId} setFilter={setFilter} /> , 
-        elem
-      ));
-    }
 
-    closeSorting();
+    if(document.getElementById("filtering") && elemId === filtered.current) {
+      setSortingModal(null);
+    } else {
+      const closeSorting = () => {
+        setSortingModal(createPortal(
+          <FilteringModal items={CARS} property={elemId} setFilter={setFilter} /> , 
+          elem
+        ));
+      }
+      
+      closeSorting();
+      filtered.current = elemId;
+    }
   }
 
   return (
@@ -66,7 +73,11 @@ function Inventory() {
         <div className="grid grid-rows-2 sm:grid-cols-[minmax(30%,_.5fr)_minmax(70%,_1fr)] m-5">
           <div className="">
             <div className="flex flex-col grid-cols-5 sm:grid-rows-5 sm:grid-cols-none mr-4">
-              {filter !== null ? <button onClick={() => setFilter(null)}>Reset Filters</button> : null}
+              {filter !== null ? 
+                <button className="self-center w-max p-2 bg-custom-200 rounded" onClick={() => setFilter(null)}>
+                  Reset Filters
+                </button>
+               : null}
               <div id="year">
                 <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => sorting(e)}><span>Year</span><span>+</span></button>
                 {sortingModal}

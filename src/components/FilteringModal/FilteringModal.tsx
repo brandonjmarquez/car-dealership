@@ -7,7 +7,7 @@ interface SortingModalProps {
   setFilter: Function;
 }
 
-const SortingModal = (props: SortingModalProps) => {
+const FilteringModal = (props: SortingModalProps) => {
   const [properties, setProperties] = useState<Set<string>>(new Set());
   const propertiesDropdown = useMemo(() => {
     let propertyOpts: ReactElement[] = [];
@@ -15,9 +15,9 @@ const SortingModal = (props: SortingModalProps) => {
     properties.forEach((property) => {
       propertyOpts.push(
         <button key={property} 
-          className="block text-custom-100" 
+          className="block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 
           onClick={(e) => props.setFilter({property: props.property, value: (e.target as Element).innerHTML})}
-        >{property}</button>
+        ><span className="pl-1">{property}</span></button>
       )
     });
 
@@ -38,8 +38,8 @@ const SortingModal = (props: SortingModalProps) => {
   
 
   return (
-    <div className="bg-custom-400">{propertiesDropdown}</div>
+    <div id="filtering" className=" ml-10">{propertiesDropdown}</div>
   )
 }
 
-export default SortingModal;
+export default FilteringModal;
