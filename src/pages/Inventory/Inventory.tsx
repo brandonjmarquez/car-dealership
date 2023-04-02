@@ -71,8 +71,8 @@ function Inventory() {
       <div className="flex flex-col text-white">
         <h1 className="text-3xl md:text-6xl font-bold m-5 p-5 border-b-2 whitespace-nowrap">Inventory</h1>
         <div className="grid grid-rows-2 sm:grid-cols-[minmax(30%,_.5fr)_minmax(70%,_1fr)] m-5">
-          <div className="">
-            <div className="flex flex-col grid-cols-5 sm:grid-rows-5 sm:grid-cols-none mr-4">
+          <div className="sticky top-48">
+            <div className="flex flex-col mr-4">
               {filter !== null ? 
                 <button className="self-center w-max p-2 bg-custom-200 rounded" onClick={() => setFilter(null)}>
                   Reset Filters

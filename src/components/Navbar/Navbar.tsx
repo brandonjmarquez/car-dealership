@@ -22,7 +22,7 @@ const Navbar = () => {
         `}
       </style>
       <div id='topbar' className='px-9 py-2 bg-custom-200 text-right'>topbar works!</div>
-      <nav id='navbar' className='sticky top-0 overflow-hidden shadow'>
+      <nav id='navbar' className='sticky top-0 z-50 overflow-hidden shadow'>
         <div className='py-2 bg-custom-100 w-full text-white whitespace-nowrap z-50 shadow-md'>
           <div className='grid grid-cols-2'>
             <div className='flex items-center mx-7 my-1 '>

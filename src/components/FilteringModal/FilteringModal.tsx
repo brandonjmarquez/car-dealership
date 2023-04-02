@@ -15,8 +15,8 @@ const FilteringModal = (props: SortingModalProps) => {
     properties.forEach((property) => {
       propertyOpts.push(
         <button key={property} 
-          className="block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 
-          onClick={(e) => props.setFilter({property: props.property, value: (e.target as Element).innerHTML})}
+          className="active:bg-custom-300 block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 
+          onClick={(e) => props.setFilter({property: props.property, value: ((e.target as Element).tagName == "SPAN") ? (e.target as Element).innerHTML : (e.target as Element).children[0]?.innerHTML})}
         ><span className="pl-1">{property}</span></button>
       )
     });
@@ -29,7 +29,6 @@ const FilteringModal = (props: SortingModalProps) => {
       let tempProperties = new Set<string>();
       props.items.forEach((item: Car) => {
         tempProperties.add(item[props.property as keyof Car].toString())
-        // console.log(item[props.property as keyof Car])
       });
       return tempProperties
     }
