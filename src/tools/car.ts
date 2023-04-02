@@ -1,7 +1,7 @@
 export interface Car {
   id: number;
   color: string;
-  year: number;
+  year: string;
   make: string;
   model:string;
   body: string;
