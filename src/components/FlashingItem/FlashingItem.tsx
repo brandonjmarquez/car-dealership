@@ -3,7 +3,7 @@ import React, { ReactPortal, useLayoutEffect, useRef, useState } from "react";
 import { css, keyframes } from "@emotion/react";
 import { Car } from "../../tools/car";
 import { createPortal } from "react-dom";
-import ItemInfoModal from "../../ItemInfoModal/ItemInfoModal";
+import ItemInfoModal from "../ItemInfoModal/ItemInfoModal";
 
 interface FlashingItemProps {
   items: Car[]

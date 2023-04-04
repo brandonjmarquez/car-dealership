@@ -3,7 +3,7 @@ import React, { ReactPortal, useState } from "react";
 import { createPortal } from "react-dom";
 import { Car } from "../../tools/car";
 import { css, keyframes } from "@emotion/react";
-import ItemInfoModal from "../../ItemInfoModal/ItemInfoModal";
+import ItemInfoModal from "../ItemInfoModal/ItemInfoModal";
 
 interface CarouselItemProps {
   item: Car;

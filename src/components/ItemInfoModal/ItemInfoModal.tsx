@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css, keyframes } from '@emotion/react';
-import { Car } from '../tools/car';
+import { Car } from '../../tools/car';
 
 interface ItemInfoModalProps {
   item: Car;

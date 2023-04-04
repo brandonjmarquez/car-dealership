@@ -27,14 +27,16 @@ const Navbar = () => {
           <div className='grid grid-cols-2'>
             <div className='flex items-center mx-7 my-1 '>
               {/* <FaCar className='text-6xl inline-block py-3' /> */}
-              <h1 className='inline-block text-5xl font-bold'>Mock Motors</h1>
+              <a href="/">
+                <h1 className='inline-block text-5xl font-bold'>Mock Motors</h1>
+              </a>
             </div>
             <div className='burger flex md:hidden justify-end items-center text-3xl px-3'>
               <HiOutlineMenu className='' />
             </div>
             <div className='hidden md:flex items-center justify-end mr-3'>
-              <a id='home' href='/' className={`px-4 py-3`}>Home</a>
-              <a id='inventory' href='inventory' className='px-4 py-3'>Inventory</a>
+              <a id='home' href='/' className="border border-custom-100 hover:border-custom-400 px-4 py-3">Home</a>
+              <a id='inventory' href='inventory' className="border border-custom-100 hover:border-custom-400 px-4 py-3">Inventory</a>
             </div>
           </div>
         </div>

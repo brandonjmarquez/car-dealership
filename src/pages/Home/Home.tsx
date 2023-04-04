@@ -1,9 +1,9 @@
 import React from "react";
-import InfiniteCarousel from '../../components/InfiniteCarousel/InfiniteCarousel'
 import { FaCar, FaPhone, FaSearch } from "react-icons/fa";
 import { CARS } from "../../tools/mock-cars";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import InfiniteCarousel from '../../components/InfiniteCarousel/InfiniteCarousel'
 import FlashingItem from "../../components/FlashingItem/FlashingItem";
 
 const Home = () => {
