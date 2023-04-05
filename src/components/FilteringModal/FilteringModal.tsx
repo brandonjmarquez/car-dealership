@@ -4,9 +4,10 @@ import { Car } from "../../tools/car";
 import { css, keyframes } from "@emotion/react";
 import queryString from "query-string";
 import useFilter from "../../Hooks/useFilter";
+import { parse } from "query-string/base";
 
 interface SortingModalProps {
-  filtered: string;
+  filter: {[property: string]: string} | null;
   filterOpts: React.RefObject<HTMLDivElement>;
   items: Car[];
   property: string;
@@ -23,13 +24,13 @@ const FilteringModal = (props: SortingModalProps) => {
       propertyOpts.push(
         <button key={property} 
           className="active:bg-custom-300 block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 
-          onClick={(e) => props.setFilter({[props.property]: ((e.target as Element).tagName == "SPAN") ? (e.target as Element).innerHTML : (e.target as Element).children[0]?.innerHTML})}
+          onClick={(e) => props.setFilter({...props.filter, [props.property]: ((e.target as Element).tagName == "SPAN") ? (e.target as Element).innerHTML : (e.target as Element).children[0]?.innerHTML})}
         ><span className="pl-1">{property}</span></button>
       )
     });
 
     return propertyOpts;
-  }, [properties])
+  }, [properties, filtered]);
 
   useLayoutEffect(() => {
     const getProperties = () => {
@@ -42,11 +43,18 @@ const FilteringModal = (props: SortingModalProps) => {
           if(parsedParams[props.property] === item[props.property as keyof Car])
             tempProperties.add(item[props.property as keyof Car].toString())
         } else if(paramKeys.length > 0) {
+          let validProperty = true;
           paramKeys.forEach((key) => {
-            if(item[key as keyof Car] === parsedParams[key]) {
-              tempProperties.add(item[props.property as keyof Car].toString())
+            if(item[key as keyof Car] === parsedParams[key] && validProperty) {
+              validProperty = true
+            } else {
+              validProperty = false;
             }
           });
+          if(validProperty) {
+            tempProperties.add(item[props.property as keyof Car].toString());
+            console.log(item[props.property as keyof Car]);
+          }
         } else {
           tempProperties.add(item[props.property as keyof Car].toString())
         }
@@ -55,7 +63,7 @@ const FilteringModal = (props: SortingModalProps) => {
     }
 
     setProperties(getProperties())
-  }, [filtered]);
+  }, [filtered, props.filter]);
   
   const dropdown = keyframes`
    0% {
