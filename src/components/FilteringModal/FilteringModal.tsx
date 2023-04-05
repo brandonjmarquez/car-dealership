@@ -19,8 +19,9 @@ const FilteringModal = (props: SortingModalProps) => {
   const filtered = useFilter();
   const propertiesDropdown = useMemo(() => {
     let propertyOpts: ReactElement[] = [];
+    let sortedProperties = Array.from(properties).sort();
 
-    properties.forEach((property) => {
+    sortedProperties.forEach((property) => {
       propertyOpts.push(
         <button key={property} 
           className="active:bg-custom-300 block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 

@@ -13,7 +13,6 @@ import { FaRegTimesCircle } from 'react-icons/fa';
 
 function Inventory() {
   const [filteringModal, setFilteringModal] = useState<ReactPortal | null>();
-  const [removeFilterButtons, setRemoveFilterButtons] = useState<ReactPortal | null>();
   const [filter, setFilter] = useState<{[property: string]: string} | null>(null);
   const filterOpen = useRef<string>();
   const filterOpts = useRef<HTMLDivElement>(null);
@@ -146,7 +145,7 @@ function Inventory() {
             <div className="flex flex-col mr-4">
               {filteringModal}
               {filter ? 
-                <div className={`flex `}>
+                <div className="flex">
                   <button className="active:bg-custom-400 inline-block w-max m-1 p-2 bg-custom-200 rounded whitespace-nowrap" onClick={() => setFilter(null)}>
                     Reset Filters
                   </button>
@@ -170,7 +169,7 @@ function Inventory() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="mt-6">
             {inventory}
           </div>
         </div>
