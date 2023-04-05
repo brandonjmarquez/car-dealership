@@ -25,7 +25,7 @@ const FilteringModal = (props: SortingModalProps) => {
       propertyOpts.push(
         <button key={property} 
           className="active:bg-custom-300 block w-full bg-custom-400 text-custom-100 text-left border border-custom-100 rounded" 
-          onClick={(e) => {console.log(props.filter);props.setFilter({...props.filter, [props.property]: ((e.target as Element).tagName == "SPAN") ? (e.target as Element).innerHTML : (e.target as Element).children[0]?.innerHTML})}}
+          onClick={(e) => props.setFilter({...props.filter, [props.property]: ((e.target as Element).tagName == "SPAN") ? (e.target as Element).innerHTML : (e.target as Element).children[0]?.innerHTML})}
         ><span className="pl-1">{property}</span></button>
       )
     });

@@ -31,7 +31,6 @@ function Inventory() {
     let items: JSX.Element[] = [];
     let filterKeys: string[];
     if(filter) filterKeys = Object.keys(filter);
-    // console.log(filter);
     CARS.forEach((item) => {
       if(!filter) {
         items.push(
@@ -90,7 +89,6 @@ function Inventory() {
               if(Object.keys(state!).length === 0) return null;
               return state;
             });
-            console.log(filter);
           }}
           >
               {filter[property]} <FaRegTimesCircle className="inline align-middle" />
@@ -109,28 +107,27 @@ function Inventory() {
 
   const dropdownFilter = useCallback(() => {
     setFilterDropdown(createPortal(
-      <div ref={filterDropdownRef} css={css`animation: ${dropdown} 300ms ease-in-out forwards;`} id="filter-dropdown" className={`flex flex-col self-center w-11/12 absolute top-[${dropdownTop.current}] origin-top`}>
+      <div ref={filterDropdownRef} css={css`animation: ${dropdown} 300ms ease-in-out forwards;`} id="filter-dropdown" className="flex flex-col self-center w-full absolute origin-top bg-custom-100">
         {filteringModal}
         <div id="year" className="">
-          <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => {console.log(filter);filtering(e)}}><span>Year</span><span>+</span></button>
+          <button className="w-11/12 active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Year</span><span>+</span></button>
         </div>
         <div id="make" className="">
-          <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => {console.log(filter);filtering(e)}}><span>Make</span><span>+</span></button>
+          <button className="w-11/12 active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Make</span><span>+</span></button>
         </div>
         <div id="model" className="">
-          <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Model</span><span>+</span></button>
+          <button className="w-11/12 active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Model</span><span>+</span></button>
         </div>
         <div id="body" className="">
-          <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Body</span><span>+</span></button>
+          <button className="w-11/12 active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Body</span><span>+</span></button>
         </div>
         <div id="color" className="">
-          <button className="w-full active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Color</span><span>+</span></button>
+          <button className="w-11/12 active:bg-custom-400 m-1 px-5 py-3 bg-custom-300 rounded flex justify-between" onClick={(e) => filtering(e)}><span>Color</span><span>+</span></button>
         </div>
       </div>, document.getElementById("filter-dropdown-container")!))
   }, [filter]);
 
   useEffect(() => {
-    console.log(filter)
     if(elem.current && elemId.current)
       closeFiltering(elem.current, elemId.current)
 
@@ -151,17 +148,14 @@ function Inventory() {
   }
   
   const filteringDropdown = () => {
-    // console.log(filterDropdownRef.current)
     let elem = document.getElementById("filters-button");
     if(document.getElementById("filter-dropdown-container") && filterDropdownRef.current) {
       if(document.getElementById("filter-dropdown-container")?.children[0] === filterDropdownRef.current) {
-        console.log("hello")
         filterDropdownRef.current!.classList.toggle('filter-exit')
         return setTimeout(() => setFilterDropdown(null), 300);
       }
     }
     if(elem) {
-      console.log("bye")
       dropdownFilter();
     }
   }
@@ -199,18 +193,18 @@ function Inventory() {
           }
         `}
       </style>}
-      {filterDropdownRef.current && <style type="text/css">
+      <style type="text/css">
         {`
-          div#filter-dropdown {
-            // top: ${filterDropdownRef.current.parentElement?.offsetHeight}px;
+          #small-filter {
+            top: ${document.getElementById("navbar")?.offsetHeight}px;
           }
         `}
-      </style>}
+      </style>
       <Navbar />
       <div className="flex flex-col text-white">
         <h1 className="text-3xl md:text-6xl font-bold m-5 p-5 border-b-2 whitespace-nowrap">Inventory</h1>
         <div className="flex flex-col sm:grid sm:grid-rows-none sm:grid-cols-[minmax(30%,_.5fr)_minmax(70%,_1fr)] m-5">
-          <div id="small-filter" className="flex flex-col sm:hidden">
+          <div id="small-filter" className="flex flex-col sm:hidden sticky bg-custom-100">
             <button id="filters-button" className="flex justify-between text-3xl items-center" onClick={() => filteringDropdown()}>
               <span className="flex items-center"><HiOutlineMenu className="inline" /> Filters</span>{(filterDropdown) ? <FaChevronUp /> : <FaChevronDown />}
             </button>
