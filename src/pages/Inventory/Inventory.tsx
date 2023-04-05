@@ -149,19 +149,7 @@ function Inventory() {
     closeFiltering(elem.current, elemId.current);
     filterOpen.current = elemId.current;
   }
-
-  const dropdown = keyframes`
-   0% {
-        transform: rotateX(-90deg)
-    }
-    70% {
-        transform: rotateX(20deg) 
-    }
-    100% {
-        transform: rotateX(0deg) 
-    }
-  `;
-
+  
   const filteringDropdown = () => {
     // console.log(filterDropdownRef.current)
     let elem = document.getElementById("filters-button");
@@ -177,7 +165,18 @@ function Inventory() {
       dropdownFilter();
     }
   }
-
+  
+  const dropdown = keyframes`
+   0% {
+        transform: rotateX(-90deg)
+    }
+    70% {
+        transform: rotateX(20deg) 
+    }
+    100% {
+        transform: rotateX(0deg) 
+    }
+  `;
 
   return (
     <>
