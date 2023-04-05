@@ -11,9 +11,6 @@ import { FaChevronDown, FaChevronUp, FaRegTimesCircle } from 'react-icons/fa';
 import { HiOutlineMenu } from 'react-icons/hi';
 import { css, keyframes } from '@emotion/react';
 
-// import logo from './logo.svg';
-
-
 function Inventory() {
   const [filteringModal, setFilteringModal] = useState<ReactPortal | null>();
   const [filterDropdown, setFilterDropdown] = useState<ReactPortal | null>();
@@ -140,7 +137,7 @@ function Inventory() {
     elemId.current = ((e.target as HTMLButtonElement).tagName === "BUTTON") ? (e.target as HTMLButtonElement).parentElement!.id : (e.target as HTMLButtonElement).parentElement!.parentElement!.id;
     elem.current = document.getElementById(elemId.current) as Element;    
     if(document.getElementById("filtering") && elemId.current === filterOpen.current) {
-      document.getElementById("filtering")!.classList.toggle('filter-exit')
+      document.getElementById("filtering")!.classList.toggle('menu-exit');
       return setTimeout(() => setFilteringModal(null), 300);
     }
     closeFiltering(elem.current, elemId.current);
@@ -151,7 +148,7 @@ function Inventory() {
     let elem = document.getElementById("filters-button");
     if(document.getElementById("filter-dropdown-container") && filterDropdownRef.current) {
       if(document.getElementById("filter-dropdown-container")?.children[0] === filterDropdownRef.current) {
-        filterDropdownRef.current!.classList.toggle('filter-exit')
+        filterDropdownRef.current!.classList.toggle('menu-exit');
         return setTimeout(() => setFilterDropdown(null), 300);
       }
     }

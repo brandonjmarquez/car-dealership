@@ -84,7 +84,7 @@ const FlashingItem = (props: FlashingItemProps) => {
         `}
       >
         {infoModal}
-        <div id={`popper`} className={`popper sm:w-[400px] sm:h-[305px] flex`}>
+        <div id={`popper`} className={`popper w-[255px] h-[100px] sm:w-[400px] sm:h-[305px] flex`}>
           <img src={props.items[itemIndex].img} 
             width="100%"
             className="object-scale-down"
