@@ -26,13 +26,13 @@ const InfiniteCarousel = (props: InfiniteCarouselProps) => {
     let items: JSX.Element[] = [];
 
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'before' + item.id} className='carousel' item={item} handleMouseLeave={handleMouseLeave} />)
+      items.push(<CarouselItem key={'before' + item.id} className='carousel' item={item} handleMouseLeave={handleMouseLeave} />);
     })
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'center' + item.id + Math.random()} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />)
+      items.push(<CarouselItem key={'center' + item.id} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />);
     })
     props.items.forEach((item) => {
-      items.push(<CarouselItem key={'after' + item.id + Math.random()} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />)
+      items.push(<CarouselItem key={'after' + item.id} className='carousel-item' item={item} handleMouseLeave={handleMouseLeave} />);
     })
 
     return items;

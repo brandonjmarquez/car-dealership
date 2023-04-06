@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactPortal, useLayoutEffect, useRef, useState } from "react";
+import React, { ReactElement, ReactPortal, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { css, keyframes } from "@emotion/react";
 import { Car } from "../../tools/car";
 import { createPortal } from "react-dom";
@@ -14,6 +14,22 @@ const FlashingItem = (props: FlashingItemProps) => {
   const [infoModal, setInfoModal] = useState<ReactPortal | null>();
   const flasherRef = useRef<HTMLDivElement>(null);
   const intervalRef =  useRef<number>();
+  const translateAmt = useRef<number>(0);
+  const widthAmt = useRef<number>(200);
+
+  const flasher = useMemo(() => {
+    return props.items.map((item) => {
+      return <img src={item.img} 
+            width="100%"
+            className="object-scale-down"
+            srcSet={`${item.img}-400 400w,
+                     ${item.img}-255 255w,
+                     ${item.img} 800w`}
+            onClick={() => carInfo()}
+          >
+          </img>
+    })
+  },[])
 
   useLayoutEffect(() => {
     if(intervalRef.current) 
@@ -32,7 +48,17 @@ const FlashingItem = (props: FlashingItemProps) => {
       }
     }, 2000)
     
-    
+    if(itemIndex === props.items.length || itemIndex == 0) {
+      translateAmt.current = 0;
+    } else {
+      translateAmt.current = translateAmt.current + (document.getElementById("popper")?.children[itemIndex - 1].clientWidth)!;
+    }
+
+    if(itemIndex !== 0) {
+      widthAmt.current = document.getElementById("popper")?.children[itemIndex].clientWidth!;
+    } else {
+      widthAmt.current = 200;
+    }
   }, [itemIndex]);
   
   const carInfo = () => {
@@ -78,22 +104,37 @@ const FlashingItem = (props: FlashingItemProps) => {
 
   return ( 
     <>
+      <style>
+        {`
+          #flasher {
+            width: ${widthAmt.current}px;
+            overflow: hidden;
+          }
+          .popper {
+            transform: translate(-${translateAmt.current}px)
+          }
+        `}
+      </style>
       <div ref={flasherRef}
         css={css`
           animation: ${fade} 2s infinite;
         `}
+        id="flasher"
       >
         {infoModal}
         <div id={`popper`} className={`popper w-[255px] h-[100px] sm:w-[400px] sm:h-[305px] flex`}>
-          <img src={props.items[itemIndex].img} 
-            width="100%"
-            className="object-scale-down"
-            srcSet={`${props.items[itemIndex].img}-400 400w,
-                     ${props.items[itemIndex].img}-255 255w,
-                     ${props.items[itemIndex].img} 800w`}
-            onClick={() => carInfo()}
-          >
-          </img>
+          {props.items.map((item) => {
+            return <img key={item.id}
+              src={item.img} 
+              width="100%"
+              className="object-scale-down"
+              srcSet={`${item.img}-400 400w,
+                      ${item.img}-255 255w,
+                      ${item.img} 800w`}
+              onClick={() => carInfo()}
+            >
+            </img>
+          })}
         </div>
       </div>
     </>
