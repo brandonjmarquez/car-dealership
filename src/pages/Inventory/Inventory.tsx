@@ -66,6 +66,14 @@ function Inventory() {
         }
       }
     })
+    if(items.length === 0) {
+      items.push(
+        <div>
+          <br />
+          <p className="font-bold">No cars found matching this query.</p>
+        </div>
+      )
+    }
     return items;
   }, [filter])
   

@@ -18,13 +18,23 @@ const CarFinder = () => {
       for(var i = 0; i < children.length; i++) {
         if(children[i].tagName === "INPUT") {
           const id = children[i].id;
-          if((children[i] as HTMLInputElement).value.length > 0)
-            params[id.replace(id.substring(id.indexOf("-")), "")] = (children[i] as HTMLInputElement).value;
+          const value = (children[i] as HTMLInputElement).value;
+          if((children[i] as HTMLInputElement).value.length > 0) {
+            const uppercaseVal = (() => {
+              let uppercaseVal = value;
+              if(uppercaseVal.indexOf("-") !== -1) {
+                let hyphenIndex = uppercaseVal.indexOf("-");
+                uppercaseVal = uppercaseVal.substring(0, hyphenIndex + 1) + uppercaseVal.charAt(hyphenIndex + 1).toUpperCase() + uppercaseVal.substring(hyphenIndex + 2);
+              }
+              uppercaseVal = uppercaseVal.charAt(0).toUpperCase() + uppercaseVal.substring(1);
+              console.log(uppercaseVal)
+              return uppercaseVal;
+            })()
+            params[id.replace(id.substring(id.indexOf("-")), "")] = uppercaseVal;
+          }
         }
       }
-      console.log(params)
     }
-
 
     navigate({pathname: "/inventory", search: queryString.stringify(params)})
   }
