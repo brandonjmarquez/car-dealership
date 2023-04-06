@@ -19,9 +19,10 @@ const Navbar = () => {
       return setTimeout(() => setBurger(null), 300);
     }
     setBurger(createPortal(<>
-    <div css={css`animation: ${dropdown} 300ms ease-in-out forwards;`} id="burger-menu" className="flex flex-col md:hidden absolute z-50 w-full origin-top text-white">
+    <div css={css`animation: ${dropdown} 300ms ease-in-out forwards;`} id="burger-menu" className="flex flex-col md:hidden z-50 w-full origin-top text-white">
       <a id='home' href='/' className="border border-custom-100 hover:border-custom-400 px-4 py-3 bg-custom-100">Home</a>
       <a id='inventory' href='inventory' className="border border-custom-100 hover:border-custom-400 px-4 py-3 bg-custom-100">Inventory</a>
+      <a id='car-finder' href='car-finder' className="border border-custom-100 hover:border-custom-400 px-4 py-3 bg-custom-100">Car Finder</a>
     </div>
     </>, document.getElementById("burger")!))
   }
@@ -48,6 +49,10 @@ const Navbar = () => {
             background-color: rgb(var(--color-custom-400));
             color: rgb(var(--color-custom-100));
           }
+
+          #burger {
+            top: ${document.getElementById('navbar')?.offsetHeight}px
+          }
         `}
       </style>
       <div id='topbar' className='px-9 py-2 bg-custom-200 text-right text-white font-bold'>Your one stop shop for cars that you can't buy.</div>
@@ -68,11 +73,12 @@ const Navbar = () => {
             <div className='hidden md:flex items-center justify-end mr-3'>
               <a id='home' href='/' className="border border-custom-100 hover:border-custom-400 px-4 py-3">Home</a>
               <a id='inventory' href='inventory' className="border border-custom-100 hover:border-custom-400 px-4 py-3">Inventory</a>
+              <a id='car-finder' href='car-finder' className="border border-custom-100 hover:border-custom-400 px-4 py-3">Car Finder</a>
             </div>
           </div>
         </div>
       </nav>
-      <div id="burger">{burger}</div>
+      <div id="burger" className="sticky z-50">{burger}</div>
     </>
   )
 }

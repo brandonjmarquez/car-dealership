@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import InfiniteCarousel from '../../components/InfiniteCarousel/InfiniteCarousel'
 import FlashingItem from "../../components/FlashingItem/FlashingItem";
+import "../../App.css";
 
 const Home = () => {
   return (
@@ -22,7 +23,7 @@ const Home = () => {
           <div className='flex flex-col-reverse items-center'>
             <div className="flex flex-col sm:flex-row justify-around text-custom-400 my-5 w-full">
               <div className="flex justify-center ">
-                <a href="about-us">
+                <a href="car-finder">
                   <FaSearch className="text-5xl md:text-7xl block m-auto" />
                   <span className="text-lg">Car Finder</span>
                 </a>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Inventory from './pages/Inventory/Inventory';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
-import Home from './pages/Home/Home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
+import Home from './pages/Home/Home';
+import Inventory from './pages/Inventory/Inventory';
+import CarFinder from './pages/CarFinder/CarFinder';
+import './index.css';
 
 const container: any = document.getElementById('root');
 const root = createRoot(container);
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/inventory",
     element: <Inventory />,
+  },
+  {
+    path: "/car-finder",
+    element: <CarFinder />,
   },
 ]);
 

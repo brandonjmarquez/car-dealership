@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import queryString from 'query-string';
+import queryString, { ParsedQuery } from 'query-string';
 
 function useFilter(filter?: {[property: string]: string} | null) {
   const navigate = useNavigate();

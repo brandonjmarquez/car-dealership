@@ -1,28 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import React, { ReactElement, ReactPortal, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import useFilter from '../../Hooks/useFilter';
-import Navbar from '../../components/Navbar/Navbar'
-import Footer from '../../components/Footer/Footer'
-import { CARS } from "../../tools/mock-cars";
-import FilteringModal from '../../components/FilteringModal/FilteringModal';
 import { createPortal } from 'react-dom';
-import './Inventory.css'
+import useFilter from '../../Hooks/useFilter';
+import { css, keyframes } from '@emotion/react';
+import queryString, { ParsedQuery } from 'query-string';
 import { FaChevronDown, FaChevronUp, FaRegTimesCircle } from 'react-icons/fa';
 import { HiOutlineMenu } from 'react-icons/hi';
-import { css, keyframes } from '@emotion/react';
+import { CARS } from "../../tools/mock-cars";
+import Navbar from '../../components/Navbar/Navbar'
+import Footer from '../../components/Footer/Footer'
+import FilteringModal from '../../components/FilteringModal/FilteringModal';
 
 function Inventory() {
   const [filteringModal, setFilteringModal] = useState<ReactPortal | null>();
   const [filterDropdown, setFilterDropdown] = useState<ReactPortal | null>();
-  const [filter, setFilter] = useState<{[property: string]: string} | null>(null);
+  const [filter, setFilter] = useState<{[property: string]: string} | null>((window.location.search.substring(1).length > 0) ? JSON.parse(JSON.stringify(queryString.parse(window.location.search.substring(1)))) : null);
   const filterOpen = useRef<string>();
   const filterOpts = useRef<HTMLDivElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
   const elem = useRef<Element>();
   const elemId = useRef<string>();
-  const dropdownTop = useRef<string>(document.getElementById("filters-button")?.offsetHeight! + document.getElementById("filters-button")?.getBoundingClientRect().top! + "px")
-  const filtered = useFilter(filter);
-
+  const filterParams = useFilter(filter);
   
   const inventory = useMemo(() => {
     let items: JSX.Element[] = [];

@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { ReactElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Car } from "../../tools/car";
+import useFilter from "../../Hooks/useFilter";
 import { css, keyframes } from "@emotion/react";
 import queryString from "query-string";
-import useFilter from "../../Hooks/useFilter";
-import { parse } from "query-string/base";
+import { Car } from "../../tools/car";
 
 interface SortingModalProps {
   filter: {[property: string]: string} | null;
@@ -16,7 +15,7 @@ interface SortingModalProps {
 
 const FilteringModal = (props: SortingModalProps) => {
   const [properties, setProperties] = useState<Set<string>>(new Set());
-  const filtered = useFilter();
+  const filterParams = useFilter();
   const propertiesDropdown = useMemo(() => {
     let propertyOpts: ReactElement[] = [];
     let sortedProperties = Array.from(properties).sort();
@@ -31,11 +30,11 @@ const FilteringModal = (props: SortingModalProps) => {
     });
 
     return propertyOpts;
-  }, [properties, filtered]);
+  }, [properties, filterParams]);
 
   useLayoutEffect(() => {
     const getProperties = () => {
-      const parsedParams = queryString ? queryString.parse(filtered) : {};
+      const parsedParams = queryString ? queryString.parse(filterParams) : {};
       const paramKeys = Object.keys(parsedParams);
       let tempProperties = new Set<string>();
       
@@ -63,7 +62,7 @@ const FilteringModal = (props: SortingModalProps) => {
     }
 
     setProperties(getProperties())
-  }, [filtered, props.filter]);
+  }, [filterParams, props.filter]);
   
   const dropdown = keyframes`
    0% {
