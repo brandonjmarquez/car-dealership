@@ -15,7 +15,7 @@ const FlashingItem = (props: FlashingItemProps) => {
   const flasherRef = useRef<HTMLDivElement>(null);
   const intervalRef =  useRef<number>();
   const translateAmt = useRef<number>(0);
-  const widthAmt = useRef<number>(200);
+  const widthAmt = useRef<number>(400);
 
   const flasher = useMemo(() => {
     return props.items.map((item) => {
@@ -47,7 +47,9 @@ const FlashingItem = (props: FlashingItemProps) => {
         setItemIndex(itemIndex + 1);
       }
     }, 2000)
-    
+  }, [itemIndex]);
+
+  useLayoutEffect(() => {
     if(itemIndex === props.items.length || itemIndex == 0) {
       translateAmt.current = 0;
     } else {
@@ -57,9 +59,12 @@ const FlashingItem = (props: FlashingItemProps) => {
     if(itemIndex !== 0) {
       widthAmt.current = document.getElementById("popper")?.children[itemIndex].clientWidth!;
     } else {
-      widthAmt.current = 200;
+      widthAmt.current = 400;
     }
-  }, [itemIndex]);
+    console.log(itemIndex)
+    console.log(translateAmt.current)
+    console.log(widthAmt.current)
+  }, [itemIndex])
   
   const carInfo = () => {
     const closeCarInfo = () => {
